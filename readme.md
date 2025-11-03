@@ -1,5 +1,5 @@
 # Authors
 
 The Culbertson twins: Andrew and Kaden,
-Henry Bloch,
+Henry Bloch, 
 Justin Bowers
