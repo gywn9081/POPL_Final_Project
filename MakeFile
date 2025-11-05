@@ -1,8 +1,9 @@
 
 #	Henry Bloch (I got lazy!)
 
-GRAMMAR_DIR ?= src
+GRAMMAR_DIR ?= src/grammars
 BUILD_DIR ?= build
+CURRENT_WORKING_DIR := $(CURDIR)
 # TEST_FILE ?= $(wildcard HW*.py)
 
 GRAMMAR_FILES := $(wildcard $(GRAMMAR_DIR)/*.g4)
@@ -18,7 +19,7 @@ all: $(STAMP_FILES)
 # Generate Python outputs
 $(BUILD_DIR)/%.stamp: $(GRAMMAR_DIR)/%.g4 | $(BUILD_DIR)
 	@echo "Generating ANTLR4 Python files for $<"
-	cd $(GRAMMAR_DIR) && antlr4 -Dlanguage=Python3 -o ../$(BUILD_DIR) $(notdir $<)
+	cd $(GRAMMAR_DIR) && antlr4 -Dlanguage=Python3 -o $(CURRENT_WORKING_DIR)/$(BUILD_DIR) $(notdir $<)
 	@touch $@
 
 
