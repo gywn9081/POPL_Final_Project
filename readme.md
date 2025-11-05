@@ -3,9 +3,8 @@
 Group: Group Name
 
 ## Authors
-
 The Culbertson twins: Andrew and Kaden,
-Henry Bloch,
+Harry Bloch, 
 Justin Bowers
 
 
