@@ -36,7 +36,7 @@ def pretty_print_tree(tree, parser, level=0, child_only=False):
         pretty_print_tree(child, parser, level + 1, child_only=child_only)
 
 
-
+# Stop hard coding just one input
 if __name__ == "__main__":
     input_text = InputStream("3 + 4 * (2 - 1)\n")
     main(input_text)
