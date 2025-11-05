@@ -1,0 +1,46 @@
+
+#	Henry Bloch (I got lazy!)
+
+GRAMMAR_DIR ?= src/grammars
+BUILD_DIR ?= build
+CURRENT_WORKING_DIR := $(CURDIR)
+# TEST_FILE ?= $(wildcard HW*.py)
+
+GRAMMAR_FILES := $(wildcard $(GRAMMAR_DIR)/*.g4)
+
+
+# Stamp files mark successful ANTLR4 generation
+STAMP_FILES := $(patsubst $(GRAMMAR_DIR)/%.g4,$(BUILD_DIR)/%.stamp,$(GRAMMAR_FILES))
+
+
+# Default target
+all: $(STAMP_FILES)
+
+# Generate Python outputs
+$(BUILD_DIR)/%.stamp: $(GRAMMAR_DIR)/%.g4 | $(BUILD_DIR)
+	@echo "Generating ANTLR4 Python files for $<"
+	cd $(GRAMMAR_DIR) && antlr4 -Dlanguage=Python3 -o $(CURRENT_WORKING_DIR)/$(BUILD_DIR) $(notdir $<)
+	@touch $@
+
+
+# Ensure build dir exists
+$(BUILD_DIR):
+	mkdir -p $(BUILD_DIR)
+
+# TODO: Change this to a test dir or whatever tool we are using
+# Test target depends on ANTLR outputs
+# test: all
+# 	@if [ -z "$(TEST_FILE)" ]; then \
+# 		echo "Error: No HW*.py test file found."; \
+# 		exit 1; \
+# 	else \
+# 		echo "Running test: $(TEST_FILE)"; \
+# 		python3 $(TEST_FILE); \
+# 	fi
+
+clean:
+	rm -rf $(BUILD_DIR)
+
+# Show which dir we are deleting
+test-clean:
+	echo $(BUILD_DIR)
