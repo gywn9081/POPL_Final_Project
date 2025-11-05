@@ -3,7 +3,7 @@
 
 GRAMMAR_DIR ?= src
 BUILD_DIR ?= build
-# TEST_FILE := $(wildcard HW*.py)
+# TEST_FILE ?= $(wildcard HW*.py)
 
 GRAMMAR_FILES := $(wildcard $(GRAMMAR_DIR)/*.g4)
 
@@ -26,15 +26,16 @@ $(BUILD_DIR)/%.stamp: $(GRAMMAR_DIR)/%.g4 | $(BUILD_DIR)
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-# Test target — depends on ANTLR outputs
-test: all
-	@if [ -z "$(TEST_FILE)" ]; then \
-		echo "Error: No HW*.py test file found."; \
-		exit 1; \
-	else \
-		echo "Running test: $(TEST_FILE)"; \
-		python3 $(TEST_FILE); \
-	fi
+# TODO: Change this to a test dir or whatever tool we are using
+# Test target depends on ANTLR outputs
+# test: all
+# 	@if [ -z "$(TEST_FILE)" ]; then \
+# 		echo "Error: No HW*.py test file found."; \
+# 		exit 1; \
+# 	else \
+# 		echo "Running test: $(TEST_FILE)"; \
+# 		python3 $(TEST_FILE); \
+# 	fi
 
 clean:
 	rm -rf $(BUILD_DIR)
