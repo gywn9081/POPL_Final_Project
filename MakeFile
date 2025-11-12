@@ -3,10 +3,14 @@
 
 GRAMMAR_DIR ?= src/grammars
 BUILD_DIR ?= build
+TEST_DIR ?= tests
 CURRENT_WORKING_DIR := $(CURDIR)
-TEST_FILE ?= tests/deliverable1.py
+
 
 GRAMMAR_FILES := $(wildcard $(GRAMMAR_DIR)/*.g4)
+
+# Find the test files there should not be many since there is only one per deliverable
+TEST_FILES := $(wildcard $(TEST_DIR)/*.py)
 
 
 # Stamp files mark successful ANTLR4 generation
@@ -27,15 +31,14 @@ $(BUILD_DIR)/%.stamp: $(GRAMMAR_DIR)/%.g4 | $(BUILD_DIR)
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
 
-# TODO: Change this to a test dir or whatever tool we are using
-# Test target depends on ANTLR outputs
-test: all
-	@if [ -z "$(TEST_FILE)" ]; then \
-		echo "Error: No HW*.py test file found."; \
+# Test all custom built tests in the tests dir
+tests: all
+	@if [ -z "$(TEST_FILES)" ]; then \
+		echo "Error: no test files found."; \
 		exit 1; \
 	else \
-		echo "Running test: $(TEST_FILE)"; \
-		python3 $(TEST_FILE); \
+		echo "Running tests: $(TEST_FILES)"; \
+		pytest $(TEST_FILES); \
 	fi
 
 clean:
