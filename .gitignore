@@ -6,3 +6,4 @@ build/
 
 # Ignore python environment folder
 .env/
+src/grammars/.antlr
