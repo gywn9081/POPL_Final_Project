@@ -1,5 +1,13 @@
 # tests/test_arithmetic.py
 import pytest
+import sys
+from pathlib import Path
+
+# Add the parent directory ('a') to sys.path
+project_root = Path(__file__).parent.parent
+sys.path.insert(0, str(project_root))
+
+
 from antlr4 import InputStream, CommonTokenStream
 from build.ArithmeticLexer import ArithmeticLexer
 from build.ArithmeticParser import ArithmeticParser
