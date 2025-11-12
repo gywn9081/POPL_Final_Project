@@ -25,7 +25,7 @@ export PYTHONPATH=$PYTHONPATH:build/
 Generate the ANTLR parser and lexer files:
 
 ```bash
-GRAMMAR_DIR="." make -f Makefile
+GRAMMAR_DIR="." make all
 ```
 
 ## Running Tests
@@ -40,6 +40,12 @@ For verbose output:
 
 ```bash
 pytest tests/deliverable1.py -v
+```
+
+or with the provided makefile run:
+
+```bash
+make tests
 ```
 
 **Note:** When running tests you may get an error like `ModuleNotFoundError: No module named 'typing.io'; 'typing' is not a package` This is a known issue from antlr4 please try upgrading antlr4 package and tools and reruning. See here for more information [antlr4 github issue](https://github.com/Almenon/AREPL-vscode/issues/416) or this  [topical medium article](https://medium.com/@jilnaguhi/solving-modulenotfounderror-no-module-named-typing-io-when-importing-latex2sympy2-in-python-d0cbec6a9b34).
