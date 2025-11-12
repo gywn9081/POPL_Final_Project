@@ -20,6 +20,14 @@ export PYTHONPATH=$PYTHONPATH:build/
 
 **Note:** The test files automatically include the parent directory in the path, so this may not be necessary when running tests.
 
+## Building
+
+Generate the ANTLR parser and lexer files:
+
+```bash
+GRAMMAR_DIR="." make -f Makefile
+```
+
 ## Running Tests
 
 Test files are organized by deliverable. Run tests from the project root directory:
@@ -34,14 +42,6 @@ For verbose output:
 pytest tests/deliverable1.py -v
 ```
 
-## Building
-
-Generate the ANTLR parser and lexer files:
-
-```bash
-GRAMMAR_DIR="." make -f Makefile
-```
-
 ## Language Specification
 
 ### Whitespace Rules
@@ -51,6 +51,13 @@ A newline ends a statement **unless**:
 - You're inside parentheses `()`, brackets `[]`, or braces `{}`
 - The line ends with a backslash `\` for line continuation
 - You're inside a multiline string
+
+This means that to accomplish python like whitespace you will need to issue indent and dedent tokens.
+
+References (most to least useful):
+1. https://docs.python.org/3/reference/compound_stmts.html#grammar-token-suite
+2. https://github.com/no-context/moo/issues/55
+3. https://discuss.python.org/t/indentation-is-important/19835
 
 ---
 
