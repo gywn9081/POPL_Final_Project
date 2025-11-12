@@ -101,6 +101,32 @@ def test_multiline_parentheses_2():
     tree, parser = parse_input("y = (1 + 2 +\n3 + 4)")
     assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
 
+def test_empty_array():
+    tree, parser = parse_input("y = []")
+    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+
+def test_array_with_elements():
+    tree, parser = parse_input("y = [1, 2, 3, 'a', \"b\"]")
+    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+
+def test_array_with_no_commas():
+    tree, parser = parse_input("x = [a]")
+    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+
+def test_array_with_trailing_comma():
+    tree, parser = parse_input("x = [1, 2, 3,]")
+    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+
+def test_why_break():
+    tree, parser = parse_input("array1 = [1, 2, 3, 4, 5]\n")
+    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+
+# def test_why_break():
+#     tree = parse_input("array1 = [1,2, 3, 4, 5]")
+#     assert tree is not None
+
+
+
 # ---------------------
 # Negative test cases
 # ---------------------
