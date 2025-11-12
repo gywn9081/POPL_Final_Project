@@ -19,7 +19,7 @@ def parse_input(input_text):
     parser = ArithmeticParser(stream)
     parser.buildParseTrees = True
     tree = parser.start()
-    return tree
+    return tree, parser
 
 # ---------------------
 # Positive test cases
@@ -114,8 +114,8 @@ def test_multiline_parentheses_2():
     "x += (3 + )",   # incomplete expression inside parentheses
 ])
 def test_invalid_syntax(input_text):
-    with pytest.raises(Exception):
-        parse_input(input_text)
+    _, parser = parse_input(input_text)
+    assert parser.getNumberOfSyntaxErrors() > 0
 
 # ---------------------
 # Operator precedence tests
