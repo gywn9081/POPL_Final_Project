@@ -1,3 +1,5 @@
+grammar Arithmetic;
+
 // Expresions start here
 // This kinda works but newlines are valid in expressions if they are in parantheses
 start : (assignExpr NEWLINE)* (assignExpr NEWLINE| assignExpr) EOF; // allow multiple expressions per file
