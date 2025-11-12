@@ -6,3 +6,6 @@ build/
 
 # Ignore python environment folder
 .env/
+
+# evil ds store
+*.DS_Store
