@@ -1,13 +1,14 @@
 # This file will be the one that runs all of the outputs from antlr4
-import sys
+# import sys
 
 # # Add the parent directory to sys.path
 # project_root = Path(__file__).parent.parent
 # sys.path.insert(0, str(project_root))
 
-from antlr4 import *
+from antlr4 import InputStream, CommonTokenStream
 from build.ArithmeticLexer import ArithmeticLexer
 from build.ArithmeticParser import ArithmeticParser
+
 
 # The following was taken from HW2
 def main(input_stream):
@@ -43,5 +44,8 @@ def pretty_print_tree(tree, parser, level=0, child_only=False):
 
 # Stop hard coding just one input
 if __name__ == "__main__":
-    input_text = InputStream("x = -10\n")
+    # input_text = "array1 = [1, 2, 3, 4, 5]"
+    with open("./tests/deliverable1_tests.txt", "r", encoding="utf-8") as file:
+        input_text = file.read()
+    input_text = InputStream(input_text)
     main(input_text)

@@ -6,6 +6,7 @@ build/
 
 # Ignore python environment folder
 .env/
+src/grammars/.antlr
 
 # evil ds store
 *.DS_Store
