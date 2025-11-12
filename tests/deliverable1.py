@@ -1,0 +1,138 @@
+# tests/test_arithmetic.py
+import pytest
+from antlr4 import InputStream, CommonTokenStream
+from build.ArithmeticLexer import ArithmeticLexer
+from build.ArithmeticParser import ArithmeticParser
+
+# Helper function to parse input; raises exception on errors
+def parse_input(input_text):
+    lexer = ArithmeticLexer(InputStream(input_text))
+    stream = CommonTokenStream(lexer)
+    parser = ArithmeticParser(stream)
+    parser.buildParseTrees = True
+    tree = parser.start()
+    return tree
+
+# ---------------------
+# Positive test cases
+# ---------------------
+
+def test_simple_addition():
+    tree = parse_input("3 + 4")
+    assert tree is not None
+
+def test_simple_subtraction():
+    tree = parse_input("10 - 2")
+    assert tree is not None
+
+def test_multiplication_division():
+    tree = parse_input("5 * 6 / 3")
+    assert tree is not None
+
+def test_parentheses_expression():
+    tree = parse_input("(2 + 3) * 4")
+    assert tree is not None
+
+def test_multiple_operators():
+    tree = parse_input("7 + 8 * 2 - 1")
+    assert tree is not None
+
+def test_basic_assignment():
+    tree = parse_input("x = 5")
+    assert tree is not None
+
+def test_assignment_with_expression():
+    tree = parse_input("y = 3 + 2")
+    assert tree is not None
+
+def test_assignment_with_parentheses():
+    tree = parse_input("z = (1 + 2) * 3")
+    assert tree is not None
+
+def test_chained_assignment_two_vars():
+    tree = parse_input("x = y = 5")
+    assert tree is not None
+
+def test_chained_assignment_three_vars():
+    tree = parse_input("a = b = c = 10")
+    assert tree is not None
+
+def test_increment():
+    tree = parse_input("x += 1")
+    assert tree is not None
+
+def test_decrement():
+    tree = parse_input("y -= 2")
+    assert tree is not None
+
+def test_multiplication_assignment():
+    tree = parse_input("z *= 3")
+    assert tree is not None
+
+def test_division_assignment():
+    tree = parse_input("w /= 4")
+    assert tree is not None
+
+def test_two_assignments():
+    tree = parse_input("x = 5\ny = 3")
+    assert tree is not None
+
+def test_bare_expressions_multiple_lines():
+    tree = parse_input("3 + 4\n5 * 2")
+    assert tree is not None
+
+def test_multiple_assignments_and_expressions():
+    tree = parse_input("x = 1 + 2\ny = x * 3\nz = y - 1")
+    assert tree is not None
+
+def test_multiline_parentheses_1():
+    tree = parse_input("x = (3 +\n4 * (2 - 1))")
+    assert tree is not None
+
+def test_multiline_parentheses_2():
+    tree = parse_input("y = (1 + 2 +\n3 + 4)")
+    assert tree is not None
+
+# ---------------------
+# Negative test cases
+# ---------------------
+
+@pytest.mark.parametrize("input_text", [
+    "3 +",           # incomplete expression
+    "* 4",           # operator without left operand
+    "=",             # assignment without variable
+    "x + = 5",       # invalid operator sequence
+    "(2 + 3",        # missing closing parenthesis
+    "x += (3 + )",   # incomplete expression inside parentheses
+])
+def test_invalid_syntax(input_text):
+    with pytest.raises(Exception):
+        parse_input(input_text)
+
+# ---------------------
+# Operator precedence tests
+# ---------------------
+
+def test_multiplication_before_addition():
+    tree = parse_input("2 + 3 * 4")
+    assert tree is not None
+
+def test_division_before_subtraction():
+    tree = parse_input("10 - 6 / 2")
+    assert tree is not None
+
+def test_multiple_precedence():
+    tree = parse_input("1 + 2 * 3 - 4 / 2")
+    assert tree is not None
+
+def test_parentheses_override_precedence():
+    tree = parse_input("(1 + 2) * (3 - 4) / 2")
+    assert tree is not None
+
+def test_modulus_precedence():
+    tree = parse_input("10 + 5 % 3")
+    assert tree is not None
+
+def test_nested_parentheses():
+    tree = parse_input("((1 + 2) * (3 + 4)) - 5")
+    assert tree is not None
