@@ -1,8 +1,13 @@
 grammar Arithmetic;
 
-// Expresions start here
+
+///////////////////////////
+// Expresions start here //
+///////////////////////////
+
 // This kinda works but newlines are valid in expressions if they are in parantheses
-start : (assignExpr NEWLINE)* (assignExpr NEWLINE| assignExpr) EOF; // allow multiple expressions per file
+start
+    : (assignExpr NEWLINE)* (assignExpr NEWLINE| assignExpr) EOF; // allow multiple expressions per file
 
 assignExpr
     : ID ASSIGN_OP assignExpr
@@ -10,14 +15,29 @@ assignExpr
     ;
 
 
+//expr : expr ('*'|'/'|'%') expr
+//    | expr ('+'|'-') expr
+//    | '(' expr ')' 
+//    | INT
+//    | ID
+//    ;
 
-expr : expr ('*'|'/'|'%') expr
-    | expr ('+'|'-') expr
-    | '(' expr ')' 
-    | INT
-    | ID
+// Expression rules with precedence and unary support
+expr
+    : unaryExpr (('*' | '/' | '%') unaryExpr)*
     ;
 
+// Add in unary operators
+unaryExpr
+    : ('+' | '-') unaryExpr                       
+    | primaryExpr
+    ;
+
+primaryExpr
+    : INT
+    | ID
+    | '(' expr ')'
+    ;
 
 ASSIGN_OP : '=' | '+=' | '-=' | '*=' | '/=';
 
