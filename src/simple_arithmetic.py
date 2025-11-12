@@ -1,5 +1,10 @@
 # This file will be the one that runs all of the outputs from antlr4
 import sys
+
+# # Add the parent directory to sys.path
+# project_root = Path(__file__).parent.parent
+# sys.path.insert(0, str(project_root))
+
 from antlr4 import *
 from build.ArithmeticLexer import ArithmeticLexer
 from build.ArithmeticParser import ArithmeticParser
@@ -38,5 +43,5 @@ def pretty_print_tree(tree, parser, level=0, child_only=False):
 
 # Stop hard coding just one input
 if __name__ == "__main__":
-    input_text = InputStream("3 + 4 * (2 - 1)\n")
+    input_text = InputStream("x = -10\n")
     main(input_text)
