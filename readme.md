@@ -1,25 +1,71 @@
 # POPL Final Project
 
-Group: Group Name
+**Group:** Many Deers; One Headlight
 
 ## Authors
-The Culbertson twins: Andrew and Kaden,
-Harry Bloch, 
-Justin Bowers
 
+Harry Bloch,
+Justin Bowers,
+The Culbertson twins: Andrew and Kaden
 
-## Notes for running
+## Setup
 
-Please note that the supplied (or default of `build/`) build directory must be on the PYTHONPATH variable since antlr4's outputs will be placed there. You can do this with echo PYTHONPATH=$PYTHONPATH:build/dir
+### Python Path Configuration
 
+The build directory (default: `build/`) must be on your `PYTHONPATH` since ANTLR4 outputs are placed there.
 
-#### Useful commands
+```bash
+export PYTHONPATH=$PYTHONPATH:build/
+```
 
-GRAMMER_DIR="." make -f MakeFile
+**Note:** The test files automatically include the parent directory in the path, so this may not be necessary when running tests.
 
-### Notes about white space
+## Running Tests
 
-A newline ends a statement unless:
-* You’re inside parentheses (), brackets [], or braces {}.
-* The line ends with a backslash \ for line continuation.
-* You’re inside a multiline string.
+Test files are organized by deliverable. Run tests from the project root directory:
+
+```bash
+pytest tests/deliverable1.py
+```
+
+For verbose output:
+
+```bash
+pytest tests/deliverable1.py -v
+```
+
+## Building
+
+Generate the ANTLR parser and lexer files:
+
+```bash
+GRAMMAR_DIR="." make -f Makefile
+```
+
+## Language Specification
+
+### Whitespace Rules
+
+A newline ends a statement **unless**:
+
+- You're inside parentheses `()`, brackets `[]`, or braces `{}`
+- The line ends with a backslash `\` for line continuation
+- You're inside a multiline string
+
+---
+
+## Project Structure
+
+The following was obtained from this tree command `tree -L 2 -I '__pycache__|*.pyc'`
+
+```
+.
+├── build/          # ANTLR-generated files
+├── src
+│   ├── grammars    # g4 files used by ANTLR
+│   └── /           # Files to run deliverable g4 with input
+├── tests/          # Test files organized by deliverable
+├── Makefile        # Build configuration
+├── requirements.txt # Project requirements file t install
+└── readme.md
+```
