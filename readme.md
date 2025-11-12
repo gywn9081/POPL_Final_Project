@@ -50,6 +50,11 @@ make tests
 
 **Note:** When running tests you may get an error like `ModuleNotFoundError: No module named 'typing.io'; 'typing' is not a package` This is a known issue from antlr4 please try upgrading antlr4 package and tools and reruning. See here for more information [antlr4 github issue](https://github.com/Almenon/AREPL-vscode/issues/416) or this  [topical medium article](https://medium.com/@jilnaguhi/solving-modulenotfounderror-no-module-named-typing-io-when-importing-latex2sympy2-in-python-d0cbec6a9b34).
 
+## Running Deliverables
+
+If you are running a deliverable file you will want to do this via python modules eg `python -m src.simple_arthmetic` you will need to run this from the project directory
+
+
 ## Language Specification
 
 ### Whitespace Rules

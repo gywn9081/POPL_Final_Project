@@ -21,7 +21,7 @@ STAMP_FILES := $(patsubst $(GRAMMAR_DIR)/%.g4,$(BUILD_DIR)/%.stamp,$(GRAMMAR_FIL
 all: $(STAMP_FILES)
 
 # Generate Python outputs
-$(BUILD_DIR)/%.stamp: $(GRAMMAR_DIR)/%.g4 | $(BUILD_DIR)
+$(BUILD_DIR)/%.stamp: $(GRAMMAR_DIR)/%.g4 $(BUILD_DIR)/__init__.py | $(BUILD_DIR)
 	@echo "Generating ANTLR4 Python files for $<"
 	cd $(GRAMMAR_DIR) && antlr4 -Dlanguage=Python3 -o $(CURRENT_WORKING_DIR)/$(BUILD_DIR) $(notdir $<)
 	@touch $@
@@ -30,6 +30,11 @@ $(BUILD_DIR)/%.stamp: $(GRAMMAR_DIR)/%.g4 | $(BUILD_DIR)
 # Ensure build dir exists
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
+
+# Make __init__.py file for Python imports
+$(BUILD_DIR)/__init__.py: | $(BUILD_DIR)
+	touch $(BUILD_DIR)/__init__.py
+
 
 # Test all custom built tests in the tests dir
 tests: all
