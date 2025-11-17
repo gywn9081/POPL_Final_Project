@@ -10,3 +10,6 @@ src/grammars/.antlr
 
 # evil ds store
 *.DS_Store
+
+# Ignore vscode folder
+.vscode/
