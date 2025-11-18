@@ -15,12 +15,16 @@ def main(input_stream):
     lexer = ArithmeticLexer(input_stream)
     tokens = CommonTokenStream(lexer)
     parser = ArithmeticParser(tokens)
+    parser.buildParseTrees = True
     # The following method is the start method defined in the grammar
     tree = parser.start()
+
     # Default
     # print(tree.toStringTree(recog=parser))
+
     # Pretty tree
     # pretty_print_tree(tree, parser)
+
     # Child only pretty tree
     pretty_print_tree(tree, parser, child_only=True)
 
@@ -44,8 +48,8 @@ def pretty_print_tree(tree, parser, level=0, child_only=False):
 
 # Stop hard coding just one input
 if __name__ == "__main__":
-    # input_text = "array1 = [1, 2, 3, 4, 5]"
-    with open("./tests/deliverable1_tests.txt", "r", encoding="utf-8") as file:
+    # input_text = "x=\"\"\"\n\n\"testing\"\"\"\""
+    with open("./tests/deliverable_3.txt", "r", encoding="utf-8") as file:
         input_text = file.read()
     input_text = InputStream(input_text)
     main(input_text)
