@@ -43,7 +43,7 @@ tests: all
 		exit 1; \
 	else \
 		echo "Running tests: $(TEST_FILES)"; \
-		pytest $(TEST_FILES); \
+		pytest -s $(TEST_FILES); \
 	fi
 
 clean:

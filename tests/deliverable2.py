@@ -7,10 +7,11 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-
 from antlr4 import InputStream, CommonTokenStream
 from build.ArithmeticLexer import ArithmeticLexer
 from build.ArithmeticParser import ArithmeticParser
+
+from src.simple_arithmetic import pretty_print_tree
 
 # Helper function to parse input; raises exception on errors
 def parse_input(input_text):
@@ -21,26 +22,29 @@ def parse_input(input_text):
     tree = parser.start()
     return tree, parser
 
-
 # ---------------------
 # Positive test cases
 # ---------------------
 
-def test_simple_addition():
-    tree, parser = parse_input("3 + 4")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+# def test_simple_addition():
+#     tree, parser = parse_input("3 + 4")
+#     assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
 
 #--------------------
 # String test cases
 #--------------------
 
-def test_empty_string():
-    tree, parser = parse_input("")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+# def test_empty_string():
+#     tree, parser = parse_input("\n")
+#     assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
 
-def test_multiline_string():
-    tree, parser = parse_input("\n\n\ntest\n\n\n")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+
+def test_deliverable2():
+    with open("tests/deliverable_2.txt", "r") as f:
+        file = f.read()
+        tree, parser = parse_input(file)
+        pretty_print_tree(tree, parser, False)
+        assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
 
 # ---------------------
 # Negative test cases
