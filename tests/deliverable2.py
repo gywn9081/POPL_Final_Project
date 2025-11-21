@@ -22,22 +22,9 @@ def parse_input(input_text):
     tree = parser.start()
     return tree, parser
 
-# ---------------------
-# Positive test cases
-# ---------------------
-
-# def test_simple_addition():
-#     tree, parser = parse_input("3 + 4")
-#     assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
-
-#--------------------
-# String test cases
-#--------------------
-
-# def test_empty_string():
-#     tree, parser = parse_input("\n")
-#     assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
-
+#-----------------------
+# File test and output
+#-----------------------
 
 def test_deliverable2():
     with open("tests/deliverable_2.txt", "r") as f:

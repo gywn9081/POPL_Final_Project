@@ -1,36 +1,5 @@
 grammar Arithmetic;
 
-//@lexer::members {
-//    from collections import deque
-//    indentStack = deque([0])
-//
-//    def emit_indent(self, new_indent):
-//        tok = self.commonToken(self.INDENT, "")
-//        tok.line = self.getLine()
-//        tok.column = 0
-//        indentStack.append(new_indent)
-//        return tok
-//
-//    def emit_dedent(self):
-//        indentStack.pop()
-//        tok = self.commonToken(self.DEDENT, "")
-//        tok.line = self.getLine()
-//        tok.column = 0
-//        return tok
-//
-//    def commonToken(self, type, text):
-//        from antlr4 import CommonToken
-//        stop = self.getCharIndex() - 1
-//        start = stop if text == "" else stop - len(text) + 1
-//        return CommonToken(self._tokenFactorySourcePair, type,
-//                           self.DEFAULT_TOKEN_CHANNEL, start, stop)
-//}
-
-//@lexer::header {
-//    from collections import deque
-//}
-
-
 ///////////////////////////
 // Expresions start here //
 ///////////////////////////
@@ -146,40 +115,6 @@ STRING
     ; // Note you don't need alternate chars here
 
 ELEMENT : (ID|INT|STRING);
-
-//NEWLINE
-//    :   ([\r\n]+)  {
-//            newLine = self.text
-//            spaces = 0
-//            # Count leading spaces
-//            la = self._input.LA(1)
-//            while la == 32:  # space
-//                spaces += 1
-//                self._input.consume()
-//                la = self._input.LA(1)
-//
-//            prev_indent = self.indentStack[-1]
-//
-//            # Emit NEWLINE token
-//            self.type = PythonSubset.NEWLINE
-//            self.channel = self.DEFAULT_TOKEN_CHANNEL
-//
-//            if la == -1:
-//                # End of file, emit DEDENT tokens
-//                from antlr4 import CommonToken
-//                self._hitEOF = True
-//                while len(self.indentStack) > 1:
-//                    self.emit(self.emit_dedent())
-//                return
-//
-//            if spaces > prev_indent:
-//                self.emit(self.emit_indent(spaces))
-//            else:
-//                while spaces < prev_indent:
-//                    self.emit(self.emit_dedent())
-//                    prev_indent = self.indentStack[-1]
-//        }
-//    ;
 
 NEWLINE : ([\r\n]+);
 
