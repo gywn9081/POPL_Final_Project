@@ -54,6 +54,7 @@ make tests
 
 If you are running a deliverable file you will want to do this via python modules eg `python -m src.simple_arthmetic` you will need to run this from the project directory
 
+**Note** Make sure you have the build dir on the python path
 
 ## Language Specification
 

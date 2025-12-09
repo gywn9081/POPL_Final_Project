@@ -45,6 +45,7 @@ def test_multiple_hashtag():
 
 """
     I would argue this is not a comment and should just be treated as a string
+    Update: This is kinda true but this string is a multiline string
 """
 
 def test_string_comment_single():
@@ -57,6 +58,11 @@ def test_string_comment_double():
 
 def test_string_comment_assignment():
     tree, parser = parse_input("x=\"\"\"\n\n\"testing\"\"\"")
+    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+
+
+def test_base_while():
+    tree, parser = parse_input("while True:\n\tdata = 30\ndata = data - 1")
     assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
 
 # ---------------------
