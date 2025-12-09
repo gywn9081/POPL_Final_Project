@@ -10,7 +10,9 @@ start
     ;
 
 statementOrEmptyLine
-    : assignExpr NEWLINE?
+    : COMMENT
+    | TRIPLECOMMENT // triple comments can only start at the start of a new line
+    | assignExpr NEWLINE?
     | ifStmt
     | NEWLINE  // empty line
     ;
@@ -125,9 +127,11 @@ DEDENT : ;
 WS : [ \t]+ -> skip; // This is fine for now
 
 // We will just ignore one line comments
-COMMENT
-    : '#' ~[\r\n]* -> skip  // Single line comment
-    ;
+COMMENT : '#' (.?)*'\n';  // Single line comment
+
+TRIPLECOMMENT
+    : '\'\'\''(.?|'\n')*'\'\'\'''\n'
+    | '\"\"\"'(.?|'\n')*'\"\"\"''\n';
 
 COLON : ':';
 LPAREN : '(';
