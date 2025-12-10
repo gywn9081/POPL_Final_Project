@@ -47,7 +47,7 @@ def indent_dedent_function(input_text):
         if indent_count % 4 != 0:
             print("evil ahh tabing") # TODO prob change this lol
             sys.exit(1)
-        
+
         indent_change = indent_count - current_indent
 
         indent_change = indent_change / 4

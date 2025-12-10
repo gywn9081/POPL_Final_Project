@@ -15,6 +15,7 @@ statementOrEmptyLine
     | ifStmt
     | forStmt
     | whileStmt
+    | blockStmt
     | NEWLINE  // empty line
     ;
 
