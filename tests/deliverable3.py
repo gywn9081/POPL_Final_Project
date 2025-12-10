@@ -14,6 +14,8 @@ from build.ArithmeticParser import ArithmeticParser
 
 # Helper function to parse input; raises exception on errors
 def parse_input(input_text):
+    # a preprocessor function to make indenting and dedenting easier
+    input_text = indent_dedent_function(input_text)
     lexer = ArithmeticLexer(InputStream(input_text))
     stream = CommonTokenStream(lexer)
     parser = ArithmeticParser(stream)
@@ -21,6 +23,46 @@ def parse_input(input_text):
     tree = parser.start()
     return tree, parser
 
+def indent_dedent_function(input_text):
+    # so that we have a list of lines, not including the newline or \r whatever that does
+    input_text_list = input_text.splitlines()
+    output_text_list = []
+    current_indent = 0
+    for input_text_line in input_text_list:
+        # we should not care about lines that are stripped or that have a hashtag cause its a comment
+        if not input_text_line.strip() or input_text_line.strip()[0] == "#":
+            output_text_list.append(input_text_line)
+            continue
+        
+        # counts the number of indents (since space is one and tab is 4)
+        for i in input_text_line:
+            if i == '\t':
+                indent_count += 4
+            elif i == ' ':
+                indent_count += 1
+            else:
+                break
+        
+        if indent_count % 4 != 0:
+            print("evil ahh tabing") # TODO prob change this lol
+            sys.exit(1)
+        
+        indent_change = indent_count - current_indent
+
+        indent_change = indent_change / 4
+
+        if indent_change < 0:
+            output_text_list.append('<debang>')
+        elif indent_change > 0:
+            output_text_list.append('<bang>')
+        
+        output_text_list.append(input_text_line)
+
+        current_indent = indent_count
+    
+    print('\n'.join(output_text_list))
+
+    return '\n'.join(output_text_list)
 
 # ---------------------
 # Positive test cases
