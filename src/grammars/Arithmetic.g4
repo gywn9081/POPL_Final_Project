@@ -64,7 +64,7 @@ array
 // Need to allow if, elif, else statements
 
 blockStmt
-    : '<bang>' statementOrEmptyLine+ '<debang>' ;
+    : '<bang>' statementOrEmptyLine+ '<debang>' NEWLINE?;
     
 
 ifStmt
@@ -84,7 +84,7 @@ whileStmt
     ;
 
 forStmt
-    : FOR ID 'in' (ID | array) ':' NEWLINE blockStmt
+    : FOR ID 'in' (ID | array | 'range''(' (expr | expr ',' expr)')') ':' NEWLINE blockStmt
     ;
 
 conditionalExpr

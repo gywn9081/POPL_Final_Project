@@ -47,22 +47,23 @@ def indent_dedent_function(input_text):
         indent_change = indent_count - current_indent
 
         indent_change = indent_change / 4
-
-        if indent_change < 0:
-            output_text_list.append('<debang>')
-        elif indent_change > 0:
-            output_text_list.append('<bang>')
+        
+        current_indent = indent_count
+        while indent_change != 0:
+            if indent_change < 0:
+                output_text_list.append('<debang>')
+                indent_change += 1
+            elif indent_change > 0:
+                output_text_list.append('<bang>')
+                indent_change -= 1
         
         output_text_list.append(input_text_line)
 
-        current_indent = indent_count
         
     while(current_indent > 0):
         output_text_list.append('<debang>')
         current_indent-=4
     
-    print('\n'.join(output_text_list))
-
     return '\n'.join(output_text_list)
 
 # a preprocessor function to make indenting and dedenting easier
