@@ -60,6 +60,10 @@ def indent_dedent_function(input_text):
         output_text_list.append(input_text_line)
 
         current_indent = indent_count
+        
+    while(current_indent > 0):
+        output_text_list.append('<debang>')
+        current_indent-=4
     
     print('\n'.join(output_text_list))
 
@@ -116,8 +120,8 @@ def test_invalid_syntax(input_text):
     assert parser.getNumberOfSyntaxErrors() > 0
     
 @pytest.mark.parametrize("input_text", [
-    "# Hello!\nx=1\nx=2",
-    "'''Hello!\nHi!'''\nx += 2"
+    "if(True):\n\tx=1\n\ty=2\n",  
+    "if(True):\n\tx=1\n\ty=2\n\tif(False):\n\t\tz=3\n\tb=4\n\t\tg=4\n\t"
 ])
 
 def test_valid_syntax(input_text):
