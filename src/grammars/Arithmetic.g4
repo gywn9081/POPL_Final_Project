@@ -119,7 +119,7 @@ WHILE   : 'while';
 FOR     : 'for';
 
 ID : [a-zA-Z_][a-zA-Z_0-9]*;
-INT : [0-9]+;
+INT : [0-9]+'.'?[0-9]*;
 
 STRING 
     : '"""' .*? '"""' // Double quotes triple strings
