@@ -1,10 +1,4 @@
-x = 1
 
-if True : x += 1
-
-for i in x:
-    pass
-
-for i in [1,2,3]:
-    pass
-
+y = 1
+x = y = 2
+x, y = 2

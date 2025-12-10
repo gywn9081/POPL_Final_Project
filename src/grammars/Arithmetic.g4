@@ -8,11 +8,9 @@ start
     : (statementOrEmptyLine)* EOF
     ;
 
-indentBlock
-    : '<bang>' simpleStmt '<debang>' ;
-
 statementOrEmptyLine
-    : COMMENT
+    : STRING NEWLINE
+    | COMMENT
     | assignExpr NEWLINE?
     | ifStmt
     | forStmt
@@ -26,8 +24,7 @@ simpleStmt
     ;
 
 assignExpr
-    : ID ASSIGN_OP assignExpr
-    | expr
+    : ID ASSIGN_OP (assignExpr | expr)
     ;
 
 // Forcing a Expression to eval to something is the problem with the parantheses tests
@@ -70,23 +67,23 @@ blockStmt
     
 
 ifStmt
-    : IF conditionalExpr ':' NEWLINE blockStmt+ (elifBranch)* (elseBranch)? 
+    : IF conditionalExpr ':' NEWLINE blockStmt (elifBranch)* (elseBranch)? 
     ;
 
 elifBranch
-    : ELIF conditionalExpr ':' NEWLINE blockStmt+
+    : ELIF conditionalExpr ':' NEWLINE blockStmt
     ;
 
 elseBranch
-    : ELSE ':' NEWLINE blockStmt+
+    : ELSE ':' NEWLINE blockStmt
     ;
 
 whileStmt
-    : WHILE conditionalExpr ':' NEWLINE blockStmt+
+    : WHILE conditionalExpr ':' NEWLINE blockStmt
     ;
 
 forStmt
-    : FOR ID 'in' (ID | array) ':' NEWLINE blockStmt+
+    : FOR ID 'in' (ID | array) ':' NEWLINE blockStmt
     ;
 
 conditionalExpr
@@ -122,11 +119,6 @@ FOR     : 'for';
 
 ID : [a-zA-Z_][a-zA-Z_0-9]*;
 INT : [0-9]+;
-
-TRIPLE_COMMENT 
-    : '"""' .*? '"""' // Double quotes triple strings
-    | '\'\'\'' .*? '\'\'\'' // Single qoutes triple strings
-    ;
 
 STRING 
     : '"""' .*? '"""' // Double quotes triple strings

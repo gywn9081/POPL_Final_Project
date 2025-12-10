@@ -34,6 +34,7 @@ def indent_dedent_function(input_text):
             output_text_list.append(input_text_line)
             continue
         
+        indent_count = 0
         # counts the number of indents (since space is one and tab is 4)
         for i in input_text_line:
             if i == '\t':
@@ -115,8 +116,8 @@ def test_invalid_syntax(input_text):
     assert parser.getNumberOfSyntaxErrors() > 0
     
 @pytest.mark.parametrize("input_text", [
-    "# Hello!\nx+1\nx+2",
-    "\"\"\"Hello!\nHi!\"\"\"\nx+2"
+    "# Hello!\nx=1\nx=2",
+    "'''Hello!\nHi!'''\nx += 2"
 ])
 
 def test_valid_syntax(input_text):
