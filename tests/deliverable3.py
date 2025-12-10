@@ -68,8 +68,9 @@ def indent_dedent_function(input_text):
 
 # a preprocessor function to make indenting and dedenting easier
 input_text = indent_dedent_function(input_text)
+
 lexer = ArithmeticLexer(InputStream(input_text))
 stream = CommonTokenStream(lexer)
 parser = ArithmeticParser(stream)
-parser.buildParseTrees = True # ! Delete later
-tree = parser.start() # ! Delete later
+parser.buildParseTrees = True
+tree = parser.start()
