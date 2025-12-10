@@ -8,9 +8,11 @@ start
     : (statementOrEmptyLine)* EOF
     ;
 
+indentBlock
+    : '<bang>' simpleStmt '<debang>' ;
+
 statementOrEmptyLine
     : COMMENT
-    | TRIPLECOMMENT // triple comments can only start at the start of a new line
     | assignExpr NEWLINE?
     | ifStmt
     | forStmt
@@ -64,11 +66,11 @@ array
 // Need to allow if, elif, else statements
 
 blockStmt
-    : (INDENT simpleStmt)+
-    ;
+    : '<bang>' statementOrEmptyLine+ '<debang>' ;
+    
 
 ifStmt
-    : IF conditionalExpr ':' NEWLINE blockStmt+ (elifBranch)* (elseBranch)?
+    : IF conditionalExpr ':' NEWLINE blockStmt+ (elifBranch)* (elseBranch)? 
     ;
 
 elifBranch
@@ -94,7 +96,7 @@ conditionalExpr
     | operand COMPARISON_OP operand
     | '(' conditionalExpr ')'
     | conditionalExpr LOGICAL_OP conditionalExpr
-    | conditionalExpr
+    // | conditionalExpr
     ;
 
 operand
@@ -120,6 +122,12 @@ FOR     : 'for';
 
 ID : [a-zA-Z_][a-zA-Z_0-9]*;
 INT : [0-9]+;
+
+TRIPLE_COMMENT 
+    : '"""' .*? '"""' // Double quotes triple strings
+    | '\'\'\'' .*? '\'\'\'' // Single qoutes triple strings
+    ;
+
 STRING 
     : '"""' .*? '"""' // Double quotes triple strings
     | '\'\'\'' .*? '\'\'\'' // Single qoutes triple strings
@@ -131,17 +139,13 @@ ELEMENT : (ID|INT|STRING);
 
 NEWLINE : ([\r\n]+);
 
-INDENT : '<indent>';
-DEDENT : '<dedent>';
+INDENT : '<bang>';
+DEDENT : '<debang>';
 
 WS : [ \t]+ -> skip; // This is fine for now
 
 // We will just ignore one line comments
-COMMENT : '#' ~[\r\n]+;  // Single line comment
-
-TRIPLECOMMENT
-    : '\'\'\''~[']+'\'\'\'''\n'
-    | '\"\"\"'~["]+'\"\"\"''\n';
+COMMENT : '#' ~[\r\n]*;  // Single line comment
 
 COLON : ':';
 LPAREN : '(';

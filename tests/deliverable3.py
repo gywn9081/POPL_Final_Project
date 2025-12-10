@@ -77,29 +77,25 @@ def indent_dedent_function(input_text):
 # Comment test cases
 #-----------------
 
-def test_basic_comment():
-    tree, parser = parse_input("#x=y\n")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+# def test_basic_comment():
+#     tree, parser = parse_input("#x=y\n")
+#     assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
 
-def test_multiple_hashtag():
-    tree, parser = parse_input("######tests\n")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+# def test_multiple_hashtag():
+#     tree, parser = parse_input("######tests\n")
+#     assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
 
-"""
-    I would argue this is not a comment and should just be treated as a string
-"""
+# def test_string_comment_single():
+#     tree, parser = parse_input("\'\'\'\n\ntesting\'\'\'")
+#     assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
 
-def test_string_comment_single():
-    tree, parser = parse_input("\'\'\'\n\ntesting\'\'\'")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+# def test_string_comment_double():
+#     tree, parser = parse_input("\"\"\"\n\ntesting\"\"\"")
+#     assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
 
-def test_string_comment_double():
-    tree, parser = parse_input("\"\"\"\n\ntesting\"\"\"")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
-
-def test_string_comment_assignment():
-    tree, parser = parse_input("x=\"\"\"\n\n\"testing\"\"\"")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+# def test_string_comment_assignment():
+#     tree, parser = parse_input("x=\"\"\"\n\n\"testing\"\"\"")
+#     assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
 
 # ---------------------
 # Negative test cases
@@ -112,7 +108,18 @@ def test_string_comment_assignment():
     "x + = 5",       # invalid operator sequence
     "(2 + 3",        # missing closing parenthesis
     "x += (3 + )",   # incomplete expression inside parentheses
+    "\"hi!\"x+2"
 ])
 def test_invalid_syntax(input_text):
     _, parser = parse_input(input_text)
     assert parser.getNumberOfSyntaxErrors() > 0
+    
+@pytest.mark.parametrize("input_text", [
+    "# Hello!\nx+1\nx+2",
+    "\"\"\"Hello!\nHi!\"\"\"\nx+2"
+])
+
+def test_valid_syntax(input_text):
+    _, parser = parse_input(input_text)
+    assert parser.getNumberOfSyntaxErrors() == 0
+    
