@@ -3,7 +3,6 @@ grammar Arithmetic;
 ///////////////////////////
 // Expresions start here //
 ///////////////////////////
-
 // This kinda works but newlines are valid in expressions if they are in parantheses
 start
     : (statementOrEmptyLine)* EOF
@@ -14,6 +13,8 @@ statementOrEmptyLine
     | TRIPLECOMMENT // triple comments can only start at the start of a new line
     | assignExpr NEWLINE?
     | ifStmt
+    | forStmt
+    | whileStmt
     | NEWLINE  // empty line
     ;
 
@@ -78,6 +79,14 @@ elseBranch
     : ELSE ':' NEWLINE blockStmt+
     ;
 
+whileStmt
+    : WHILE conditionalExpr ':' NEWLINE blockStmt+
+    ;
+
+forStmt
+    : FOR ID 'in' (ID | array) ':' NEWLINE blockStmt+
+    ;
+
 conditionalExpr
     : ID
     | INT
@@ -85,6 +94,7 @@ conditionalExpr
     | operand COMPARISON_OP operand
     | '(' conditionalExpr ')'
     | conditionalExpr LOGICAL_OP conditionalExpr
+    | conditionalExpr
     ;
 
 operand
@@ -106,32 +116,32 @@ IF      : 'if';
 ELIF    : 'elif';
 ELSE    : 'else';
 WHILE   : 'while';
+FOR     : 'for';
 
 ID : [a-zA-Z_][a-zA-Z_0-9]*;
-INT : [0-9.]+;
+INT : [0-9]+;
 STRING 
     : '"""' .*? '"""' // Double quotes triple strings
     | '\'\'\'' .*? '\'\'\'' // Single qoutes triple strings
     | '"' (~["\r\n])* '"'
-    |'\'' (~['"\r\n])* '\''
+    | '\'' (~['"\r\n])* '\''
     ; // Note you don't need alternate chars here
 
 ELEMENT : (ID|INT|STRING);
 
 NEWLINE : ([\r\n]+);
 
-INDENT : '\t';
-DEDENT : ;
-
+INDENT : '<indent>';
+DEDENT : '<dedent>';
 
 WS : [ \t]+ -> skip; // This is fine for now
 
 // We will just ignore one line comments
-COMMENT : '#' (.?)*'\n';  // Single line comment
+COMMENT : '#' ~[\r\n]+;  // Single line comment
 
 TRIPLECOMMENT
-    : '\'\'\''(.?|'\n')*'\'\'\'''\n'
-    | '\"\"\"'(.?|'\n')*'\"\"\"''\n';
+    : '\'\'\''~[']+'\'\'\'''\n'
+    | '\"\"\"'~["]+'\"\"\"''\n';
 
 COLON : ':';
 LPAREN : '(';
