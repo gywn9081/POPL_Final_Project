@@ -16,7 +16,7 @@ and Andrew Culbertson
 
  - Python 3.10 or later (https://www.python.org/downloads/)
 
- - latest antlr4-tools (run $ pip install antlr4-tools)
+ - run $ pip install -r requirements.txt
 
 ## How To Run
 
