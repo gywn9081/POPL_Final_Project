@@ -3,15 +3,19 @@ grammar Arithmetic;
 ///////////////////////////
 // Expresions start here //
 ///////////////////////////
-
 // This kinda works but newlines are valid in expressions if they are in parantheses
 start
     : (statementOrEmptyLine)* EOF
     ;
 
 statementOrEmptyLine
-    : assignExpr NEWLINE?
-    | controlFlowStmt NEWLINE?
+    : STRING NEWLINE
+    | COMMENT
+    | assignExpr NEWLINE?
+    | ifStmt
+    | forStmt
+    | whileStmt
+    | blockStmt
     | NEWLINE  // empty line
     ;
 
@@ -27,8 +31,7 @@ simpleStmt
     ;
 
 assignExpr
-    : ID ASSIGN_OP assignExpr
-    | expr
+    : ID ASSIGN_OP (assignExpr | expr)
     ;
 
 // Forcing a Expression to eval to something is the problem with the parantheses tests
@@ -63,8 +66,8 @@ array
 
 
 blockStmt
-    : (INDENT simpleStmt)+
-    ;
+    : INDENT statementOrEmptyLine+ DEDENT NEWLINE?;
+    
 
 ///////////////////////////
 // Conditional Branches  //
@@ -79,15 +82,23 @@ forStmt
     ;
 
 ifStmt
-    : IF conditionalExpr ':' NEWLINE blockStmt+ (elifBranch)* (elseBranch)?
+    : IF conditionalExpr ':' NEWLINE blockStmt (elifBranch)* (elseBranch)? 
     ;
 
 elifBranch
-    : ELIF conditionalExpr ':' NEWLINE blockStmt+
+    : ELIF conditionalExpr ':' NEWLINE blockStmt
     ;
 
 elseBranch
-    : ELSE ':' NEWLINE blockStmt+
+    : ELSE ':' NEWLINE blockStmt
+    ;
+
+whileStmt
+    : WHILE conditionalExpr ':' NEWLINE blockStmt
+    ;
+
+forStmt
+    : FOR ID 'in' (ID | array | 'range''(' (expr | expr ',' expr)')') ':' NEWLINE blockStmt
     ;
 
 conditionalExpr
@@ -96,6 +107,7 @@ conditionalExpr
     | operand COMPARISON_OP operand
     | '(' conditionalExpr ')'
     | conditionalExpr LOGICAL_OP conditionalExpr
+    // | conditionalExpr
     ;
 
 operand
@@ -134,26 +146,24 @@ FOR     : 'for';
 
 BOOL : 'True' | 'False';
 ID : [a-zA-Z_][a-zA-Z_0-9]*;
-INT : [0-9.]+;
+INT : ([0-9]+'.'?[0-9]* | '.'[0-9]+);
+
 STRING 
     : '"""' .*? '"""' // Double quotes triple strings
     | '\'\'\'' .*? '\'\'\'' // Single qoutes triple strings
     | '"' (~["\r\n])* '"'
-    |'\'' (~['"\r\n])* '\''
+    | '\'' (~['"\r\n])* '\''
     ; // Note you don't need alternate chars here
 
 NEWLINE : ([\r\n]+);
 
-INDENT : '\t';
-// DEDENT : ;
-
+INDENT : '<indent>';
+DEDENT : '<dedent>';
 
 WS : [ \t]+ -> skip; // This is fine for now
 
 // We will just ignore one line comments
-COMMENT
-    : '#' ~[\r\n]* -> skip  // Single line comment
-    ;
+COMMENT : '#' ~[\r\n]*;  // Single line comment
 
 COLON : ':';
 LPAREN : '(';

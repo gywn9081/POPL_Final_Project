@@ -1,82 +1,76 @@
 # The following was taken from deliverable 1 tests file
-import pytest
 import sys
 from pathlib import Path
 
-# Add the parent directory to sys.path
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
+# # Add the parent directory to sys.path
+# project_root = Path(__file__).parent.parent
+# sys.path.insert(0, str(project_root))
 
 
 from antlr4 import InputStream, CommonTokenStream
-from build.ArithmeticLexer import ArithmeticLexer
-from build.ArithmeticParser import ArithmeticParser
+from ArithmeticLexer import ArithmeticLexer
+from ArithmeticParser import ArithmeticParser
 
-# Helper function to parse input; raises exception on errors
-def parse_input(input_text):
-    lexer = ArithmeticLexer(InputStream(input_text))
-    stream = CommonTokenStream(lexer)
-    parser = ArithmeticParser(stream)
-    parser.buildParseTrees = True
-    tree = parser.start()
-    return tree, parser
+if len(sys.argv) != 2:
+    print(f"Usage: {sys.argv[0]} <text_to_test.txt> or {sys.argv[0]} <text_to_test.py>")
+    sys.exit(1)
 
 
-# ---------------------
-# Positive test cases
-# ---------------------
+with open(sys.argv[1], "r", encoding="utf-8") as f:
+    input_text = f.read()
 
-# def test_multiline_string():
-#     tree, parser, lexer = parse_input("\"\n\n\ntest\n\n\n\"")
-#     print(parser.getNumberOfSyntaxErrors())
-#     assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+def indent_dedent_function(input_text):
+    # so that we have a list of lines, not including the newline or \r whatever that does
+    input_text_list = input_text.splitlines()
+    output_text_list = []
+    current_indent = 0
+    for input_text_line in input_text_list:
+        # we should not care about lines that are stripped or that have a hashtag cause its a comment
+        if not input_text_line.strip() or input_text_line.strip()[0] == "#":
+            output_text_list.append(input_text_line)
+            continue
+        
+        indent_count = 0
+        # counts the number of indents (since space is one and tab is 4)
+        for i in input_text_line:
+            if i == '\t':
+                indent_count += 4
+            elif i == ' ':
+                indent_count += 1
+            else:
+                break
+        
+        if indent_count % 4 != 0:
+            print("Error. Expected tab spacing amount to use a multiple of 4.")
+            sys.exit(1)
 
-#-----------------
-# Comment test cases
-#-----------------
+        indent_change = indent_count - current_indent
 
-def test_basic_comment():
-    tree, parser = parse_input("#x=y\n")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+        indent_change = indent_change / 4
+        
+        current_indent = indent_count
+        while indent_change != 0:
+            if indent_change < 0:
+                output_text_list.append('<dedent>') # in honor of bang and debang 𓉸🥀🥀🥀🥀🥀
+                indent_change += 1
+            elif indent_change > 0:
+                output_text_list.append('<indent>')
+                indent_change -= 1
+        
+        output_text_list.append(input_text_line)
 
-def test_multiple_hashtag():
-    tree, parser = parse_input("######tests\n")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
+        
+    while(current_indent > 0):
+        output_text_list.append('<dedent>')
+        current_indent-=4
+    
+    return '\n'.join(output_text_list)
 
-"""
-    I would argue this is not a comment and should just be treated as a string
-    Update: This is kinda true but this string is a multiline string
-"""
+# a preprocessor function to make indenting and dedenting easier
+input_text = indent_dedent_function(input_text)
 
-def test_string_comment_single():
-    tree, parser = parse_input("\'\'\'\n\ntesting\'\'\'")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
-
-def test_string_comment_double():
-    tree, parser = parse_input("\"\"\"\n\ntesting\"\"\"")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
-
-def test_string_comment_assignment():
-    tree, parser = parse_input("x=\"\"\"\n\n\"testing\"\"\"")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
-
-
-def test_base_while():
-    tree, parser = parse_input("while True:\n\tdata = 30\ndata = data - 1")
-    assert tree is not None and parser.getNumberOfSyntaxErrors() == 0
-
-# ---------------------
-# Negative test cases
-# ---------------------
-
-@pytest.mark.parametrize("input_text", [
-    "\"\n\n\ntest\n\n\n\"", # incomplete expression
-    "x=\"\"\"\n\n\"testing\"\"\"\"", # Unterminated string after three quotes
-    "=",             # assignment without variable
-    "x + = 5",       # invalid operator sequence
-    "(2 + 3",        # missing closing parenthesis
-    "x += (3 + )",   # incomplete expression inside parentheses
-])
-def test_invalid_syntax(input_text):
-    _, parser = parse_input(input_text)
-    assert parser.getNumberOfSyntaxErrors() > 0
+lexer = ArithmeticLexer(InputStream(input_text))
+stream = CommonTokenStream(lexer)
+parser = ArithmeticParser(stream)
+parser.buildParseTrees = True
+tree = parser.start()
