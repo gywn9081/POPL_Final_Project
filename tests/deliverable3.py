@@ -12,8 +12,9 @@ from ArithmeticLexer import ArithmeticLexer
 from ArithmeticParser import ArithmeticParser
 
 if len(sys.argv) != 2:
-    print(f"Usage: {sys.argv[0]} <text_to_test.txt>")
+    print(f"Usage: {sys.argv[0]} <text_to_test.txt> or {sys.argv[0]} <text_to_test.py>")
     sys.exit(1)
+
 
 with open(sys.argv[1], "r", encoding="utf-8") as f:
     input_text = f.read()
