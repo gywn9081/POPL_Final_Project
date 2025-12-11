@@ -1,0 +1,62 @@
+import sys
+
+if len(sys.argv) != 2:
+    print(f"Usage: {sys.argv[0]} <text_to_test.txt> or {sys.argv[0]} <text_to_test.py>")
+    sys.exit(1)
+
+
+with open(sys.argv[1], "r", encoding="utf-8") as f:
+    input_text = f.read()
+
+def indent_dedent_function(input_text):
+    # so that we have a list of lines, not including the newline or \r whatever that does
+    input_text_list = input_text.splitlines()
+    output_text_list = []
+    current_indent = 0
+    for input_text_line in input_text_list:
+        # we should not care about lines that are stripped or that have a hashtag cause its a comment
+        if not input_text_line.strip() or input_text_line.strip()[0] == "#":
+            output_text_list.append(input_text_line)
+            continue
+        
+        indent_count = 0
+        # counts the number of indents (since space is one and tab is 4)
+        for i in input_text_line:
+            if i == '\t':
+                indent_count += 4
+            elif i == ' ':
+                indent_count += 1
+            else:
+                break
+        
+        if indent_count % 4 != 0:
+            print("Error. Expected tab spacing amount to use a multiple of 4.")
+            sys.exit(1)
+
+        indent_change = indent_count - current_indent
+
+        indent_change = indent_change / 4
+        
+        current_indent = indent_count
+        while indent_change != 0:
+            if indent_change < 0:
+                output_text_list.append('<dedent>') # in honor of bang and debang 𓉸🥀🥀🥀🥀🥀
+                indent_change += 1
+            elif indent_change > 0:
+                output_text_list.append('<indent>')
+                indent_change -= 1
+        
+        output_text_list.append(input_text_line)
+
+        
+    while(current_indent > 0):
+        output_text_list.append('<dedent>')
+        current_indent-=4
+    
+    return '\n'.join(output_text_list)
+
+
+input_text = indent_dedent_function(input_text)
+
+with open("tree_input.txt", "w", encoding="utf-8") as out_file:
+    out_file.write(input_text)
