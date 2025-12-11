@@ -1,16 +1,15 @@
 # The following was taken from deliverable 1 tests file
-import pytest
 import sys
 from pathlib import Path
 
-# Add the parent directory to sys.path
-project_root = Path(__file__).parent.parent
-sys.path.insert(0, str(project_root))
+# # Add the parent directory to sys.path
+# project_root = Path(__file__).parent.parent
+# sys.path.insert(0, str(project_root))
 
 
 from antlr4 import InputStream, CommonTokenStream
-from build.ArithmeticLexer import ArithmeticLexer
-from build.ArithmeticParser import ArithmeticParser
+from ArithmeticLexer import ArithmeticLexer
+from ArithmeticParser import ArithmeticParser
 
 if len(sys.argv) != 2:
     print(f"Usage: {sys.argv[0]} <text_to_test.txt>")
