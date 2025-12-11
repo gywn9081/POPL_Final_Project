@@ -20,11 +20,19 @@ and Andrew Culbertson
 
 ## How To Run
 
-1. $ antlr4 -Dlanguage=Python3 Arithmetic.g4
+1. $ cd tests
+
+1. $ antlr4 -Dlanguage=Python3 ../src/grammars/Arithmetic.g4
 
 2. $ python deliverable3.py <text_to_test.txt>
 
 (ex. $ python deliverable3.py deliverable3.txt or $ python deliverable3.py project_deliverable_3.py)
+
+## How To Get Parse Tree
+
+1. 
+
+2. antlr4-parse Arithmetic.g4 start -tree -gui deliverable_3.txt
 
 If you would like more info on installing and running, please feel free to contact us or check out our Github:
 https://github.com/gywn9081/POPL_Final_Project

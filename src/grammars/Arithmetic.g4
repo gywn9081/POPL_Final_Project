@@ -19,12 +19,6 @@ statementOrEmptyLine
     | NEWLINE  // empty line
     ;
 
-controlFlowStmt
-    : ifStmt
-    | whileStmt
-    | forStmt
-    ;
-
 simpleStmt
     : assignExpr NEWLINE?
     | NEWLINE  // empty line
@@ -55,31 +49,23 @@ unaryExpr
     ;
 
 primaryExpr
-    : element
+    : INT
+    | ID
     | '('expr')'
+    | STRING // Allow strings to be in the grammar
     | array
     ;
 
+// Here is the array format
 array
     : '[' (expr (',' expr)*)? (',')? ']'
     ;
 
+// Need to allow if, elif, else statements
 
 blockStmt
     : INDENT statementOrEmptyLine+ DEDENT NEWLINE?;
     
-
-///////////////////////////
-// Conditional Branches  //
-///////////////////////////
-
-whileStmt
-    : WHILE conditionalExpr ':' NEWLINE INDENT+ statementOrEmptyLine
-    ;
-
-forStmt
-    : FOR conditionalExpr ':' NEWLINE INDENT+ statementOrEmptyLine
-    ;
 
 ifStmt
     : IF conditionalExpr ':' NEWLINE blockStmt (elifBranch)* (elseBranch)? 
@@ -102,7 +88,8 @@ forStmt
     ;
 
 conditionalExpr
-    : element
+    : ID
+    | INT
     | NOT_OP operand
     | operand COMPARISON_OP operand
     | '(' conditionalExpr ')'
@@ -111,15 +98,9 @@ conditionalExpr
     ;
 
 operand
-    : element
+    : ID
+    | INT
     ;
-
-element : (ID|INT|STRING|BOOL);
-
-// While cannot have a for statement in the conditional
-// Can have a string as conditional
-// Use conditionalExpr since this already allows for all of the conditionals needed
-
 
 // 3rd Deliverable will need for and while loops
 // Comments
@@ -131,20 +112,12 @@ COMPARISON_OP : '>' | '>=' | '<' | '<=' | '==' | '!=';
 LOGICAL_OP : 'and' | 'or';
 NOT_OP : 'not';
 
-///////////////////////////
-//  Branching KeyWords   //
-///////////////////////////
 IF      : 'if';
 ELIF    : 'elif';
 ELSE    : 'else';
 WHILE   : 'while';
 FOR     : 'for';
 
-///////////////////////////
-// Conditional Branches  //
-///////////////////////////
-
-BOOL : 'True' | 'False';
 ID : [a-zA-Z_][a-zA-Z_0-9]*;
 INT : ([0-9]+'.'?[0-9]* | '.'[0-9]+);
 
@@ -154,6 +127,8 @@ STRING
     | '"' (~["\r\n])* '"'
     | '\'' (~['"\r\n])* '\''
     ; // Note you don't need alternate chars here
+
+ELEMENT : (ID|INT|STRING);
 
 NEWLINE : ([\r\n]+);
 
