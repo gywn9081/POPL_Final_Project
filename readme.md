@@ -1,7 +1,7 @@
 # POPL Final Project
 
 ## Project Explanation
-This project parses Python3 code for specific features, including arithmetic operators, assignment operators, if/elif/else blocks, conditional statements, for/while loops, nested structures, and comments using Python3 and Antlr4. The text file is first put into a python function, which adds <indent> and <dedent> text so that the lexer can tokenize indentation (which is not context-free). The new text is then handed off to the Antlr grammar, which then tokenizes and parses the text based on the rules in the Arithmetic.g4 file.
+This project parses Python3 code for specific features, including arithmetic operators, assignment operators, if/elif/else blocks, conditional statements, for/while loops, nested structures, and comments using Python3 and Antlr4. The text file is first put into a python function, which adds indent and dedent text so that the lexer can tokenize indentation (which is not context-free). The new text is then handed off to the Antlr grammar, which then tokenizes and parses the text based on the rules in the Arithmetic.g4 file.
 
 ## **Group:** Many Deers; One Headlight
 
