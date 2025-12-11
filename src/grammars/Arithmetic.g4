@@ -64,7 +64,7 @@ array
 // Need to allow if, elif, else statements
 
 blockStmt
-    : '<bang>' statementOrEmptyLine+ '<debang>' NEWLINE?;
+    : INDENT statementOrEmptyLine+ DEDENT NEWLINE?;
     
 
 ifStmt
