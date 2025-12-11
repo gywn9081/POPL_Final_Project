@@ -132,8 +132,8 @@ ELEMENT : (ID|INT|STRING);
 
 NEWLINE : ([\r\n]+);
 
-INDENT : '<bang>';
-DEDENT : '<debang>';
+INDENT : '<indent>';
+DEDENT : '<dedent>';
 
 WS : [ \t]+ -> skip; // This is fine for now
 

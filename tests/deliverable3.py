@@ -51,17 +51,17 @@ def indent_dedent_function(input_text):
         current_indent = indent_count
         while indent_change != 0:
             if indent_change < 0:
-                output_text_list.append('<debang>')
+                output_text_list.append('<dedent>') # in honor of bang and debang 𓉸🥀🥀🥀🥀🥀
                 indent_change += 1
             elif indent_change > 0:
-                output_text_list.append('<bang>')
+                output_text_list.append('<indent>')
                 indent_change -= 1
         
         output_text_list.append(input_text_line)
 
         
     while(current_indent > 0):
-        output_text_list.append('<debang>')
+        output_text_list.append('<dedent>')
         current_indent-=4
     
     return '\n'.join(output_text_list)

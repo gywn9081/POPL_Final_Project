@@ -10,13 +10,13 @@ The Culbertson twins: Andrew and Kaden
 
 ## How To Run
 
-install antlr with pip
+1. install antlr with pip
 
-~ antlr4 Arithmetic.g4
+2. ~ antlr4 -Dlanguage=Python3 Arithmetic.g4
 
-~ python deliverable3.py <text_to_test.txt>
+3. ~ python deliverable3.py <text_to_test.txt>
 
-(ex. $ python deliverable3.py deliverable3.txt)
+(ex. ~ python deliverable3.py deliverable3.txt or ~ python deliverable3.py project_deliverable_3.py)
 
 If you would like more info on installing and running, please check out our github:
 https://github.com/gywn9081/POPL_Final_Project
