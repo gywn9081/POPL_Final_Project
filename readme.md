@@ -24,15 +24,19 @@ and Andrew Culbertson
 
 1. $ antlr4 -Dlanguage=Python3 ../src/grammars/Arithmetic.g4
 
-2. $ python deliverable3.py <text_to_test.txt>
+2. $ python deliverable3.py <text_to_test.txt/.py>
 
-(ex. $ python deliverable3.py deliverable3.txt or $ python deliverable3.py project_deliverable_3.py)
+(ex. $ python deliverable3.py deliverable_3.txt or $ python deliverable3.py project_deliverable_3.py)
 
 ## How To Get Parse Tree
 
-1. 
+1. $ cd tests
 
-2. antlr4-parse Arithmetic.g4 start -tree -gui deliverable_3.txt
+2. $ python indentation_parse_tree.py <text_to_parse.txt/.py>
+
+(ex. $ python indentation_parse_tree.py deliverable_3.txt or $ python indentation_parse_tree.py project_deliverable_3.py)
+
+3. $ antlr4-parse ../src/grammars/Arithmetic.g4 start -tree -gui tree_input.txt
 
 If you would like more info on installing and running, please feel free to contact us or check out our Github:
 https://github.com/gywn9081/POPL_Final_Project
