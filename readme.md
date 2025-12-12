@@ -22,9 +22,9 @@ and Andrew Culbertson
 
 1. $ cd tests
 
-1. $ antlr4 -Dlanguage=Python3 ../src/grammars/Arithmetic.g4
+2. $ antlr4 -Dlanguage=Python3 ../src/grammars/Arithmetic.g4
 
-2. $ python deliverable3.py <text_to_test.txt/.py>
+3. $ python deliverable3.py <text_to_test.txt/.py>
 
 (ex. $ python deliverable3.py deliverable_3.txt or $ python deliverable3.py project_deliverable_3.py)
 
